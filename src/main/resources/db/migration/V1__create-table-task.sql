@@ -1,0 +1,14 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TYPE task_status AS ENUM ('PROGRESS', 'EXPIRED', 'COMPLETED');
+
+CREATE TABLE IF NOT EXISTS tasks (
+    id UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    description VARCHAR(255) NOT NULL,
+    expire_in TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    priority SMALLINT NOT NULL CHECK (priority >= 1 AND priority <= 3),
+    status task_status NOT NULL,
+    title VARCHAR(255) NOT NULL
+);
+
